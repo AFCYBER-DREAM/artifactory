@@ -1,0 +1,11 @@
+---
+- name: Setup the artifactory repo for EL7
+  yum_repository:
+    name: jfrog-artifactory-pro-rpms
+    description: JFrog Aritifactory repository
+    baseurl: http://jfrog.bintray.com/artifactory-pro-rpms
+    gpgcheck: no
+    enabled: yes
+    state: present
+  when: (ansible_distribution == "RedHat" or ansible_distribution == "CentOS")
+    and ansible_distribution_major_version == "7"

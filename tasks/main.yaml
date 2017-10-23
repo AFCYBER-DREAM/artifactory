@@ -1,0 +1,42 @@
+---
+- include: add_artifactory_repo.yaml
+
+- include: create_artifactory_database.yaml
+
+- name: Install Artifactory related packages
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ packages_to_install }}"
+
+- include: db_properties.yaml
+
+- name: Enable Artifactory related services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items: "{{ enabled_services }}"
+
+- name: Create a symlink for jdbc to tomcat
+  file:
+    src: "/usr/share/java/postgresql-jdbc3.jar"
+    dest: "/opt/jfrog/artifactory/tomcat/lib/postgresql-jdbc3.jar"
+    state: link
+    owner: root
+    group: root
+
+- name: Configure nginx
+  template:
+    src: nonssl_artifactory.conf.j2
+    dest: /etc/nginx/conf.d/artifactory.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart nginx
+
+- name: Enable selinux booleans
+  seboolean:
+    name: "{{ item }}"
+    state: yes
+    persistent: yes
+  with_items: "{{ enabled_booleans }}"
