@@ -1,0 +1,9 @@
+---
+- name: Configure Artifactory database connection
+  template:
+    src: db.properties.j2
+    dest: /etc/opt/jfrog/artifactory/db.properties
+    owner: artifactory
+    group: artifactory
+    mode: 0644
+  notify: restart artifactory
