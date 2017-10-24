@@ -1,0 +1,11 @@
+---
+- name: Create database user
+  postgresql_user:
+    db: postgres
+    name: artifactory
+    password: "{{ db_password }}"
+
+- name: Create artifactroy database
+  postgresql_db:
+    name: artifactory
+    encoding: UTF-8
