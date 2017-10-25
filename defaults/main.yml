@@ -1,0 +1,11 @@
+---
+packages_to_install:
+  - java-1.8.0-openjdk
+  - jfrog-artifactory-pro
+  - postgresql-jdbc
+
+enabled_services:
+  - artifactory
+
+enabled_booleans:
+  - httpd_can_network_connect
