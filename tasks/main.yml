@@ -1,14 +1,14 @@
 ---
-- include: add_artifactory_repo.yml
+- import_tasks: add_artifactory_repo.yml
 
-- include: create_artifactory_database.yml
+- import_tasks: create_artifactory_database.yml
 
 - name: Install Artifactory related packages
   yum:
     name: "{{ item }}"
   with_items: "{{ packages_to_install }}"
 
-- include: db_properties.yml
+- import_tasks: db_properties.yml
 
 - name: Enable Artifactory related services
   service:
